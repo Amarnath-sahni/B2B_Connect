@@ -7,7 +7,7 @@ import Accessories from "../pages/category/Accessories";
 import ProductDetailPage from "../pages/category/ProductDetailPage";
 
 // Cart & Payment
-import CartPage from "../pages/Cart/Cartpage";
+import CartPage from "../pages/Cart/CartPage";
 import CheckoutPage from "../pages/payment/CheckoutPage";
 import AddressPage from "../pages/payment/AddressPage";
 
