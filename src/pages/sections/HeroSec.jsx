@@ -343,7 +343,7 @@ const HeroSec = () => {
 
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-white via-white/95 via-[2%] to-white/10"
+        className="absolute inset-0 bg-linear-to-r from-white via-white/95 via-[2%] to-white/10"
       />
 
       {/* ======================================================
@@ -376,92 +376,246 @@ const HeroSec = () => {
             LEFT CONTENT
             <div className="flex flex-col justify-center px-5 py-10 sm:px-8 lg:px-8 xl:px-10">
         ==================================================== */}
+        <div
+  className="
+    flex h-full
+    flex-col
+    items-center
+    justify-start
+    px-6 py-10
+    text-center
 
-<div className="flex flex-col justify-Center items-center text-center px-6 py-10 sm:px-8 lg:px-10 xl:px-12">
-          <h1
-            id="hero-title"
-            className="max-w-[650px] text-[34px] font-extrabold leading-[1.02] tracking-[-1.5px] text-[#040a14] sm:text-[40px] lg:text-[44px] xl:text-[46px]"
-          >
-            Trusted Textile Sourcing
-            <span className="mt-1 block bg-gradient-to-r from-[#5B5FEF] via-[#A855F7] to-[#F05CA8] bg-clip-text text-transparent">
-              From Factory to Delivery
-            </span>
-          </h1>
+    sm:px-8
 
-          <p className="mt-5 max-w-[500px] text-[14px] leading-7 text-[#30466C] sm:text-[15px]">
-            Connect with textile factories, compare wholesale pricing,
-            place bulk clothing orders, and track your shipment from
-            factory to delivery.
-          </p>
+    lg:items-start
+    lg:px-10
+    lg:py-10
+    lg:text-left
 
-          {/* ==================================================
-              CTA BUTTONS
-          ================================================== */}
+    xl:px-12
+  "
+>
+  <div className="w-full max-w-170">
 
-          <nav
-            aria-label="Hero navigation"
-            className="mt-7 flex flex-wrap items-center gap-4 sm:gap-6"
-          >
-            <Link
-              to="/categories"
-              className="group inline-flex h-[46px] items-center gap-3 rounded-xl bg-gradient-to-r from-[#5B55E8] to-[#7957F3] px-6 text-[13px] font-bold text-white shadow-[0_10px_30px_rgba(91,85,232,0.28)] transition-transform duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:ring-offset-2"
-            >
-              Explore Categories
+    {/* ==================================================
+        HERO BADGE
+    ================================================== */}
+    <div
+      className="
+        mb-4
+        inline-flex
+        items-center
+        gap-2
+        rounded-full
+        border border-[#E3E5F5]
+        bg-white/70
+        px-3.5
+        py-1.5
+        text-[10px]
+        font-bold
+        uppercase
+        tracking-[1.2px]
+        text-[#5B5FEF]
+        shadow-sm
+        backdrop-blur-sm
+        sm:text-[11px]
+      "
+    >
+      <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
+      Wholesale Textile Marketplace
+    </div>
 
-              <ArrowRight
-                aria-hidden="true"
-                size={17}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Link>
+    {/* ==================================================
+        HERO TITLE
+    ================================================== */}
+    <h1
+  id="hero-title"
+  className="max-w-170 text-pretty text-[36px] font-extrabold leading-[1.08] tracking-[-1.2px] text-[#07111F] sm:text-[42px] lg:text-[44px] xl:text-[48px]"
+>
+  <span className="block">
+    Source Wholesale Clothing
+  </span>
 
-            <Link
-              to="/how-it-works"
-              className="inline-flex h-[46px] items-center gap-3 rounded-xl border border-[#D9DDEE] bg-white/80 px-5 text-[13px] font-bold text-[#142E5C] shadow-sm backdrop-blur-md transition-colors hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:ring-offset-2"
-            >
-              How It Works
+  <span className="block">
+    Direct From Trusted Factories
+  </span>
 
-              <Play
-                aria-hidden="true"
-                size={14}
-                fill="currentColor"
-              />
-            </Link>
-          </nav>
+  <span className="mt-4 block bg-linear-to-r from-[#5B5FEF] via-[#A855F7] to-[#F05CA8] bg-clip-text text-[21px] font-bold leading-[1.2] tracking-[-0.4px] text-transparent sm:text-[24px] lg:text-[26px]">
+    Better Prices. Reliable Delivery.
+  </span>
+</h1>
 
-          {/* ==================================================
-              TRUST INFORMATION
-          ================================================== */}
+    {/* ==================================================
+        DESCRIPTION
+    ================================================== */}
+    <p
+      className="
+        mt-5
+        max-w-570px
+        text-[14px]
+        leading-7
+        text-[#30466C]
 
-          <div
-            aria-label="FabricLink benefits"
-            className="mt-10 flex flex-wrap items-center gap-6 lg:gap-5"
-          >
-            <TrustItem
-              icon={CheckCircle2}
-              iconClass="text-[#10B981]"
-              bgClass="bg-[#ECFDF5]"
-              title="Factory Network"
-              subtitle="Trusted Suppliers"
-            />
+        sm:text-[15px]
 
-            <TrustItem
-              icon={IndianRupee}
-              iconClass="text-[#6366F1]"
-              bgClass="bg-[#EEF2FF]"
-              title="Best Pricing"
-              subtitle="Competitive Rates"
-            />
+        lg:text-[16px]
+        lg:leading-7
+      "
+    >
+      FabricLink connects shopkeepers, retailers, and businesses
+      with trusted clothing manufacturers and textile factories.
+      Discover products, compare wholesale prices, order in bulk,
+      and track delivery from factory to your doorstep.
+    </p>
 
-            <TrustItem
-              icon={Truck}
-              iconClass="text-[#8B5CF6]"
-              bgClass="bg-[#F5F3FF]"
-              title="On-Time Delivery"
-              subtitle="Reliable & Fast"
-            />
-          </div>
-        </div>
+    {/* ==================================================
+        CTA BUTTONS
+    ================================================== */}
+    <nav
+      aria-label="Hero actions"
+      className="
+        mt-7
+        flex
+        flex-wrap
+        items-center
+        justify-center
+        gap-4
+
+        lg:justify-start
+      "
+    >
+      {/* Primary CTA */}
+      <Link
+        to="/categories"
+        className="
+          group
+          inline-flex
+          h-[50px]
+          items-center
+          gap-3
+          rounded-xl
+          bg-gradient-to-r
+          from-[#5B55E8]
+          to-[#7957F3]
+          px-7
+          text-[13px]
+          font-bold
+          text-white
+          shadow-[0_10px_30px_rgba(91,85,232,0.25)]
+          transition-all
+          duration-300
+
+          hover:-translate-y-1
+          hover:shadow-[0_14px_35px_rgba(91,85,232,0.32)]
+
+          focus:outline-none
+          focus:ring-2
+          focus:ring-[#6366F1]
+          focus:ring-offset-2
+        "
+      >
+        <span>Explore Wholesale Products</span>
+
+        <ArrowRight
+          aria-hidden="true"
+          size={17}
+          className="
+            transition-transform
+            duration-300
+            group-hover:translate-x-1
+          "
+        />
+      </Link>
+
+      {/* Secondary CTA */}
+      <Link
+        to="/factories"
+        className="
+          inline-flex
+          h-[50px]
+          items-center
+          gap-3
+          rounded-xl
+          border
+          border-[#D9DDEE]
+          bg-white
+          px-6
+          text-[13px]
+          font-bold
+          text-[#142E5C]
+          shadow-sm
+          transition-all
+          duration-300
+
+          hover:-translate-y-0.5
+          hover:border-[#C9CCEA]
+          hover:bg-white
+          hover:shadow-md
+
+          focus:outline-none
+          focus:ring-2
+          focus:ring-[#6366F1]
+          focus:ring-offset-2
+        "
+      >
+        <span>Find a Factory</span>
+
+        <ArrowRight
+          aria-hidden="true"
+          size={16}
+        />
+      </Link>
+    </nav>
+
+    {/* ==================================================
+        TRUST INFORMATION
+    ================================================== */}
+    <div
+      aria-label="FabricLink benefits"
+      className="
+        mt-8
+        flex
+        w-full
+        flex-wrap
+        items-center
+        justify-center
+        gap-x-7
+        gap-y-4
+
+        lg:justify-start
+        xl:gap-x-8
+      "
+    >
+      {/* Trust Item 1 */}
+      <TrustItem
+        icon={CheckCircle2}
+        iconClass="text-[#10B981]"
+        bgClass="bg-[#ECFDF5]"
+        title="Verified Suppliers"
+        subtitle="Trusted Factory Network"
+      />
+
+      {/* Trust Item 2 */}
+      <TrustItem
+        icon={IndianRupee}
+        iconClass="text-[#6366F1]"
+        bgClass="bg-[#EEF2FF]"
+        title="Competitive Pricing"
+        subtitle="Better Wholesale Rates"
+      />
+
+      {/* Trust Item 3 */}
+      <TrustItem
+        icon={Truck}
+        iconClass="text-[#8B5CF6]"
+        bgClass="bg-[#F5F3FF]"
+        title="Reliable Delivery"
+        subtitle="Factory to Your Door"
+      />
+    </div>
+
+  </div>
+</div>
 
         {/* ====================================================
             DESKTOP PROCESS
