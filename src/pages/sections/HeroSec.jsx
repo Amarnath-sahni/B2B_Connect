@@ -114,132 +114,15 @@ const TrustItem = ({
    PROCESS STEP
    ============================================================ */
 
-const ProcessStep = ({ step, active, reducedMotion }) => {
-  const Icon = step.icon;
-
-  return (
-    <motion.div
-      initial={false}
-      animate={
-        reducedMotion
-          ? { opacity: 1, scale: 1 }
-          : {
-              opacity: active ? 1 : 0.5,
-              scale: active ? 1 : 0.97,
-            }
-      }
-      transition={{ duration: 0.3 }}
-      className="relative z-20 flex items-center"
-    >
-      {/* STEP CIRCLE */}
-
-      <motion.div
-        initial={false}
-        animate={
-          reducedMotion || !active
-            ? {
-                scale: 1,
-                boxShadow: "0 8px 20px rgba(40,40,100,0.10)",
-              }
-            : {
-                scale: [1, 1.06, 1],
-                boxShadow: [
-                  `0 0 0px ${step.color}00`,
-                  `0 0 22px ${step.color}60`,
-                  `0 0 8px ${step.color}20`,
-                ],
-              }
-        }
-        transition={
-          reducedMotion || !active
-            ? { duration: 0.25 }
-            : {
-                duration: STEP_INTERVAL_MS / 1000,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }
-        }
-        style={{
-          height: CIRCLE_SIZE,
-          width: CIRCLE_SIZE,
-        }}
-        className="relative flex shrink-0 items-center justify-center rounded-full border-[3px] border-white bg-white"
-      >
-        {active && !reducedMotion && (
-          <motion.div
-            aria-hidden="true"
-            animate={{
-              opacity: [0.15, 0.35, 0.15],
-              scale: [0.85, 1.1, 0.85],
-            }}
-            transition={{
-              duration: STEP_INTERVAL_MS / 1000,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: `radial-gradient(
-                circle,
-                ${step.color}40 0%,
-                transparent 70%
-              )`,
-            }}
-          />
-        )}
-
-        <Icon
-          aria-hidden="true"
-          size={21}
-          strokeWidth={2.3}
-          className="relative z-10"
-          style={{ color: step.color }}
-        />
-      </motion.div>
-
-      {/* LABEL */}
-
-      <motion.div
-        initial={false}
-        animate={
-          reducedMotion
-            ? { opacity: 1, x: 0 }
-            : {
-                opacity: active ? 1 : 0.65,
-                x: active ? 4 : 0,
-              }
-        }
-        transition={{ duration: 0.3 }}
-        className="ml-2 flex h-[36px] items-center rounded-full border border-white bg-white/90 px-4 shadow-[0_7px_20px_rgba(60,50,120,0.10)] backdrop-blur-xl"
-      >
-        <span className="whitespace-nowrap text-[11px] font-bold text-[#142E5C]">
-          {step.title}
-        </span>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-/* ============================================================
-   DESKTOP PROCESS FLOW
-   ============================================================ */
-
 const ProcessFlow = () => {
   const [activeStep, setActiveStep] = useState(0);
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    /*
-     * Do not create a timer when the user prefers reduced motion.
-     */
-    if (reducedMotion) {
-      return undefined;
-    }
+    if (reducedMotion) return;
 
     const timer = window.setInterval(() => {
-      setActiveStep((current) =>
-        current === processSteps.length - 1 ? 0 : current + 1
-      );
+      setActiveStep((current) => (current + 1) % processSteps.length);
     }, STEP_INTERVAL_MS);
 
     return () => window.clearInterval(timer);
@@ -248,7 +131,6 @@ const ProcessFlow = () => {
   return (
     <div className="relative h-full w-full">
       {/* CONNECTOR */}
-
       <svg
         aria-hidden="true"
         viewBox="0 0 100 100"
@@ -258,7 +140,7 @@ const ProcessFlow = () => {
         <motion.path
           d={processPath}
           fill="none"
-          stroke="#C4B5FD"
+          stroke="#4F46E5"
           strokeWidth={2}
           strokeLinecap="round"
           strokeDasharray="0.6 3.2"
@@ -282,7 +164,6 @@ const ProcessFlow = () => {
       </svg>
 
       {/* PROCESS STEPS */}
-
       {processSteps.map((step, index) => {
         const anchor = stepAnchors[index];
 
@@ -307,6 +188,83 @@ const ProcessFlow = () => {
     </div>
   );
 };
+
+
+const ProcessStep = ({ step, active, reducedMotion }) => {
+  const Icon = step.icon;
+
+  return (
+    <div className="relative z-20 flex items-center">
+      {/* STEP CIRCLE */}
+      <motion.div
+        initial={false}
+        animate={
+          reducedMotion
+            ? {
+                borderColor: "#E5E7EB",
+                boxShadow: "0 8px 20px rgba(40,40,100,0.10)",
+              }
+            : {
+                borderColor: active ? step.color : "#E5E7EB",
+                boxShadow: active
+                  ? [
+                      `0 0 0 0px ${step.color}20`,
+                      `0 0 0 5px ${step.color}18`,
+                      `0 0 0 2px ${step.color}10`,
+                    ]
+                  : "0 8px 20px rgba(40,40,100,0.10)",
+              }
+        }
+        transition={
+          reducedMotion
+            ? { duration: 0 }
+            : active
+              ? {
+                  duration: STEP_INTERVAL_MS / 1000,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }
+              : {
+                  duration: 0.6,
+                  ease: "easeOut",
+                }
+        }
+        style={{
+          height: CIRCLE_SIZE,
+          width: CIRCLE_SIZE,
+        }}
+        className="relative flex shrink-0 items-center justify-center rounded-full border-[3px] bg-white"
+      >
+        <Icon
+          aria-hidden="true"
+          size={21}
+          strokeWidth={2.3}
+          className="relative z-30"
+          style={{ color: step.color }}
+        />
+      </motion.div>
+
+      {/* LABEL */}
+      <motion.div
+        initial={false}
+        animate={{
+          x: active ? 4 : 0,
+        }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut",
+        }}
+        className="ml-2 flex h-[36px] items-center rounded-full border border-white bg-white/90 px-4 shadow-[0_7px_20px_rgba(60,50,120,0.10)] backdrop-blur-xl"
+      >
+        <span className="whitespace-nowrap text-[11px] font-bold text-[#142E5C]">
+          {step.title}
+        </span>
+      </motion.div>
+    </div>
+  );
+};
+
+
 
 /* ============================================================
    HERO SECTION
@@ -490,7 +448,7 @@ const HeroSec = () => {
         className="
           group
           inline-flex
-          h-[50px]
+          h-12.5
           items-center
           gap-3
           rounded-xl
@@ -532,7 +490,7 @@ const HeroSec = () => {
         to="/factories"
         className="
           inline-flex
-          h-[50px]
+          h-12.5
           items-center
           gap-3
           rounded-xl
@@ -621,7 +579,7 @@ const HeroSec = () => {
             DESKTOP PROCESS
         ==================================================== */}
 
-        <div className="relative hidden min-h-[600px] lg:block">
+        <div className="relative hidden min-h-150 lg:block">
           <ProcessFlow />
         </div>
       </div>

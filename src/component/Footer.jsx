@@ -35,7 +35,7 @@ const stats = [
     iconClass: "text-[#EC4899]",
     bgClass: "bg-[#FCE7F3]",
     value: "10,000+",
-    label: "Products",
+    label: "Textile Products",
   },
   {
     icon: Box,
@@ -64,6 +64,13 @@ const companyLinks = [
   { label: "How It Works", to: "/how-it-works" },
 ];
 
+const marketplaceLinks = [
+  { label: "Wholesale Clothing", to: "/categories" },
+  { label: "Textile Manufacturers", to: "/factories" },
+  { label: "Bulk Clothing", to: "/categories" },
+  { label: "Factory Pricing", to: "/factories" },
+];
+
 const supportLinks = [
   { label: "Contact Us", to: "/contact" },
   { label: "FAQs", to: "/faqs" },
@@ -89,7 +96,7 @@ const socialLinks = [
   {
     icon: FaLinkedinIn,
     label: "LinkedIn",
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/groups/12872013/",
   },
   {
     icon: FaXTwitter,
@@ -97,6 +104,34 @@ const socialLinks = [
     href: "https://x.com",
   },
 ];
+
+/* ============================================================
+   FOOTER LINK
+============================================================ */
+
+const FooterLink = ({ to, children }) => (
+  <Link
+    to={to}
+    className="
+      group flex w-fit items-center gap-1
+      text-[12px] leading-5 text-slate-500
+      transition-colors duration-200
+      hover:text-[#4F46E5]
+    "
+  >
+    <span>{children}</span>
+
+    <ArrowRight
+      size={12}
+      className="
+        -ml-1 opacity-0
+        transition-all duration-200
+        group-hover:ml-0
+        group-hover:opacity-100
+      "
+    />
+  </Link>
+);
 
 /* ============================================================
    STAT CARD
@@ -108,111 +143,46 @@ const StatCard = ({
   bgClass,
   value,
   label,
-}) => {
-  return (
+}) => (
+  <div
+    className="
+      group flex min-h-[135px]
+      flex-col items-center justify-center
+      rounded-[18px]
+      border border-slate-200/80
+      bg-white px-3 py-5 text-center
+      shadow-[0_6px_22px_rgba(15,23,42,0.04)]
+      transition-all duration-300
+      hover:-translate-y-1
+      hover:border-slate-300
+      hover:shadow-[0_14px_30px_rgba(15,23,42,0.08)]
+    "
+  >
     <div
-      className="
-        group
-        flex min-h-[150px]
-        flex-col
-        items-center
-        justify-center
-        rounded-[16px]
-        border border-white/80
-        bg-white
-        px-3 py-5
-        text-center
-        shadow-[0_8px_25px_rgba(30,41,59,0.08)]
-        transition-all duration-300
-        hover:-translate-y-1
-        hover:shadow-[0_16px_35px_rgba(30,41,59,0.14)]
-      "
+      className={`
+        flex h-11 w-11 items-center justify-center
+        rounded-[14px] ${bgClass}
+        transition-transform duration-300
+        group-hover:scale-105
+      `}
     >
-      <div
-        className={`
-          flex h-11 w-11
-          items-center justify-center
-          rounded-full
-          transition-transform duration-300
-          group-hover:scale-110
-          ${bgClass}
-        `}
-      >
-        <Icon
-          size={21}
-          strokeWidth={2.2}
-          className={iconClass}
-        />
-      </div>
-
-      <p
-        className="
-          mt-3
-          text-[21px]
-          font-extrabold
-          leading-none
-          tracking-[-0.02em]
-          text-[#42587c]
-        "
-      >
-        {value}
-      </p>
-
-      <p
-        className="
-          mt-2
-          text-[11px]
-          font-medium
-          leading-tight
-          text-[#475569]
-          sm:text-[12px]
-        "
-      >
-        {label}
-      </p>
-    </div>
-  );
-};
-
-/* ============================================================
-   FOOTER LINK
-============================================================ */
-
-const FooterLink = ({ to, children }) => {
-  return (
-    <Link
-      to={to}
-      className="
-        group
-        relative
-        w-fit
-        text-[13px]
-        text-white/65
-        transition-colors
-        duration-200
-        hover:text-white
-      "
-    >
-      {children}
-
-      <span
-        className="
-          absolute
-          -bottom-1
-          left-0
-          h-[1px]
-          w-0
-          bg-gradient-to-r
-          from-[#A855F7]
-          to-[#F472B6]
-          transition-all
-          duration-300
-          group-hover:w-full
-        "
+      <Icon
+        aria-hidden="true"
+        size={20}
+        strokeWidth={2}
+        className={iconClass}
       />
-    </Link>
-  );
-};
+    </div>
+
+    <p className="mt-3 text-[20px] font-extrabold tracking-tight text-[#102D5B]">
+      {value}
+    </p>
+
+    <p className="mt-1 text-[11px] font-medium text-slate-500 sm:text-xs">
+      {label}
+    </p>
+  </div>
+);
 
 /* ============================================================
    FOOTER
@@ -222,534 +192,217 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <section className="w-full bg-pink-100 px-2 py-8 sm:px-4 lg:px-6 lg:py-8">
+    <footer
+      aria-labelledby="footer-title"
+      className="
+        w-full
+        border-t border-slate-200/80
+        bg-[#F8F7F4]
+      "
+    >
+        {/* ==================================================
+            CTA + STATS
+        ================================================== */}
 
-      {/* ======================================================
-          MAIN FOOTER CONTAINER
-      ====================================================== */}
-
-      <div
-        className="
-          relative
-          mx-auto
-          w-full
-          max-w-[1440px]
-          overflow-hidden
-          rounded-[22px]
-          bg-gradient-to-br
-          from-[#5148D8]
-          via-[#6257E9]
-          to-[#477CF0]
-          shadow-[0_20px_60px_rgba(79,70,229,0.18)]
-        "
-      >
-
-        {/* ====================================================
-            BACKGROUND LIGHTS
-        ==================================================== */}
-
-        <div
-          className="
-            pointer-events-none
-            absolute
-            -right-32
-            -top-32
-            h-[420px]
-            w-[420px]
-            rounded-full
-            bg-white/10
-            blur-[100px]
-          "
-        />
-
-        <div
-          className="
-            pointer-events-none
-            absolute
-            -bottom-40
-            left-[25%]
-            h-[400px]
-            w-[400px]
-            rounded-full
-            bg-[#C4B5FD]/20
-            blur-[110px]
-          "
-        />
-
-        <div
-          className="
-            pointer-events-none
-            absolute
-            bottom-0
-            right-[20%]
-            h-[250px]
-            w-[250px]
-            rounded-full
-            bg-[#F9A8D4]/10
-            blur-[90px]
-          "
-        />
-
-        {/* ====================================================
-            TOP CTA + STATS
-        ==================================================== */}
-
-        <div
-          className="
-            relative
-            z-10
-            px-6
-            py-8
-            sm:px-10
-            sm:py-10
-            lg:px-14
-            lg:py-12
-            xl:px-16
-          "
-        >
-
-          <div
-            className="
-              grid
-              grid-cols-1
-              items-center
-              gap-9
-              lg:grid-cols-[30%_70%]
-              lg:gap-10
-            "
-          >
-
-            {/* ==================================================
-                LEFT CTA
-            ================================================== */}
+        <div className="border-b border-slate-200/80 px-6 py-8 sm:px-10 lg:px-12 lg:py-10">
+          <div className="grid items-center gap-8 lg:grid-cols-[0.9fr_1.6fr] lg:gap-12">
+            {/* CTA */}
 
             <div className="max-w-[390px]">
-
-              <div
-                className="
-                  mb-4
-                  inline-flex
-                  items-center
-                  gap-2
-                  rounded-full
-                  border
-                  border-white/20
-                  bg-white/10
-                  px-3
-                  py-1.5
-                  text-[11px]
-                  font-semibold
-                  text-white/90
-                  backdrop-blur-sm
-                "
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-[#86EFAC]" />
-                Trusted Textile Marketplace
-              </div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#6366F1]">
+                India's Textile Marketplace
+              </p>
 
               <h2
+                id="footer-title"
                 className="
-                  text-[25px]
-                  font-extrabold
-                  leading-[1.18]
-                  tracking-[-0.025em]
-                  text-white
+                  mt-3 text-[25px] font-extrabold
+                  leading-[1.2] tracking-[-0.025em]
+                  text-[#102D5B]
                   sm:text-[29px]
-                  lg:text-[31px]
                 "
               >
-                Empowering Businesses{" "}
-                <span
-                  className="
-                    bg-gradient-to-r
-                    from-[#FDBA74]
-                    to-[#FB923C]
-                    bg-clip-text
-                    text-transparent
-                  "
-                >
-                  Across India
-                </span>
+                Source Better.
+                <span className="text-[#6366F1]"> Grow Faster.</span>
               </h2>
 
-              <p
-                className="
-                  mt-3
-                  max-w-[350px]
-                  text-[12px]
-                  leading-[1.7]
-                  text-white/75
-                  sm:text-[13px]
-                "
-              >
-                Connect with verified textile factories,
-                discover quality products, compare prices,
-                and grow your business with confidence.
+              <p className="mt-3 text-[12px] leading-6 text-slate-500 sm:text-[13px]">
+                Discover verified textile manufacturers, wholesale clothing,
+                quality products, and competitive factory pricing through
+                FabricLink.
               </p>
 
               <Link
                 to="/join"
                 className="
-                  group
-                  mt-5
-                  inline-flex
-                  h-[43px]
-                  items-center
-                  gap-2
-                  rounded-xl
-                  bg-white
-                  px-5
-                  text-[12px]
-                  font-bold
-                  text-[#4F46E5]
-                  shadow-[0_10px_25px_rgba(0,0,0,0.15)]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:shadow-[0_15px_35px_rgba(0,0,0,0.2)]
+                  group mt-5 inline-flex h-10
+                  items-center gap-2 rounded-xl
+                  bg-[#102D5B] px-5
+                  text-[12px] font-bold text-white
+                  shadow-[0_8px_20px_rgba(16,45,91,0.16)]
+                  transition-all duration-300
+                  hover:-translate-y-0.5
+                  hover:bg-[#1A3E75]
                 "
               >
                 Join FabricLink
 
                 <ArrowRight
-                  size={16}
-                  className="
-                    transition-transform
-                    duration-300
-                    group-hover:translate-x-1
-                  "
+                  size={15}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
                 />
               </Link>
             </div>
 
-            {/* ==================================================
-                STATS
-            ================================================== */}
+            {/* STATS */}
 
-            <div
-              className="
-                grid
-                grid-cols-2
-                gap-3
-                sm:gap-4
-                lg:grid-cols-4
-              "
-            >
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {stats.map((stat) => (
-                <StatCard
-                  key={stat.label}
-                  {...stat}
-                />
+                <StatCard key={stat.label} {...stat} />
               ))}
             </div>
           </div>
         </div>
 
-        {/* ====================================================
-            DIVIDER
-        ==================================================== */}
+        {/* ==================================================
+            FOOTER CONTENT
+        ================================================== */}
 
-        <div className="relative z-10 mx-6 h-px bg-white/15 sm:mx-10 lg:mx-14 xl:mx-16" />
-
-        {/* ====================================================
-            FOOTER INFORMATION
-        ==================================================== */}
-
-        <div
-          className="
-            relative
-            z-10
-            grid
-            grid-cols-1
-            gap-10
-            px-6
-            py-10
-            sm:px-10
-            lg:grid-cols-[1.7fr_1fr_1fr_1.5fr]
-            lg:px-14
-            xl:px-16
-          "
-        >
-
-          {/* ==================================================
-              BRAND
-          ================================================== */}
+        <div className="grid gap-9 px-6 py-9 sm:px-10 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.25fr] lg:px-12 lg:py-10">
+          {/* BRAND */}
 
           <div>
-
-            <Link
-              to="/"
-              className="
-                inline-flex
-                items-center
-                gap-2
-              "
-            >
+            <Link to="/" className="inline-flex items-center gap-2">
               <div
                 className="
-                  flex
-                  h-9
-                  w-9
-                  items-center
-                  justify-center
-                  rounded-xl
-                  bg-white
-                  shadow-lg
+                  flex h-9 w-9 items-center justify-center
+                  rounded-xl bg-[#102D5B]
+                  shadow-sm
                 "
               >
-                <div
-                  className="
-                    h-5
-                    w-5
-                    rounded-md
-                    bg-gradient-to-br
-                    from-[#6366F1]
-                    via-[#A855F7]
-                    to-[#F05CA8]
-                  "
-                />
+                <div className="h-4 w-4 rounded-md bg-[#A78BFA]" />
               </div>
 
-              <span
-                className="
-                  text-[20px]
-                  font-extrabold
-                  tracking-tight
-                  text-white
-                "
-              >
+              <span className="text-[20px] font-extrabold tracking-tight text-[#102D5B]">
                 Fabric
-                <span className="text-[#FDBA74]">
-                  Link
-                </span>
+                <span className="text-[#6366F1]">Link</span>
               </span>
             </Link>
 
-            <p
-              className="
-                mt-4
-                max-w-[310px]
-                text-[12px]
-                leading-[1.7]
-                text-white/60
-              "
-            >
-              India's trusted platform connecting businesses
-              with verified textile manufacturers and reliable
-              sourcing partners.
+            <p className="mt-4 max-w-[290px] text-[12px] leading-[1.7] text-slate-500">
+              FabricLink connects retailers and businesses with verified
+              textile factories for reliable wholesale clothing and bulk
+              textile sourcing across India.
             </p>
 
-            {/* SOCIAL MEDIA */}
-
-            <div className="mt-5 flex items-center gap-2.5">
-
-              {socialLinks.map(
-                ({ icon: Icon, label, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="
-                      flex
-                      h-9
-                      w-9
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-white/15
-                      bg-white/5
-                      text-white/70
-                      transition-all
-                      duration-300
-                      hover:-translate-y-1
-                      hover:border-white/30
-                      hover:bg-white
-                      hover:text-[#5B55E8]
-                      hover:shadow-lg
-                    "
-                  >
-                    <Icon size={14} />
-                  </a>
-                )
-              )}
-
+            <div className="mt-5 flex gap-2">
+              {socialLinks.map(({ icon: Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Follow FabricLink on ${label}`}
+                  className="
+                    flex h-8 w-8 items-center justify-center
+                    rounded-lg
+                    border border-slate-200
+                    bg-slate-50
+                    text-slate-500
+                    transition-all duration-200
+                    hover:-translate-y-0.5
+                    hover:border-[#C7D2FE]
+                    hover:bg-[#EEF2FF]
+                    hover:text-[#4F46E5]
+                  "
+                >
+                  <Icon size={13} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* ==================================================
-              COMPANY
-          ================================================== */}
+          {/* COMPANY */}
 
           <div>
-
-            <h3
-              className="
-                text-[12px]
-                font-bold
-                uppercase
-                tracking-[0.12em]
-                text-white
-              "
-            >
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.13em] text-[#102D5B]">
               Company
             </h3>
 
-            <div className="mt-5 flex flex-col gap-3">
+            <nav className="mt-4 flex flex-col gap-2.5">
               {companyLinks.map((link) => (
-                <FooterLink
-                  key={link.label}
-                  {...link}
-                >
+                <FooterLink key={link.label} {...link}>
                   {link.label}
                 </FooterLink>
               ))}
-            </div>
+            </nav>
           </div>
 
-          {/* ==================================================
-              SUPPORT
-          ================================================== */}
+          {/* MARKETPLACE / SEO */}
 
           <div>
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.13em] text-[#102D5B]">
+              Textile Marketplace
+            </h3>
 
-            <h3
-              className="
-                text-[12px]
-                font-bold
-                uppercase
-                tracking-[0.12em]
-                text-white
-              "
-            >
+            <nav className="mt-4 flex flex-col gap-2.5">
+              {marketplaceLinks.map((link) => (
+                <FooterLink key={link.label} {...link}>
+                  {link.label}
+                </FooterLink>
+              ))}
+            </nav>
+          </div>
+
+          {/* SUPPORT */}
+
+          <div>
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.13em] text-[#102D5B]">
               Support
             </h3>
 
-            <div className="mt-5 flex flex-col gap-3">
+            <nav className="mt-4 flex flex-col gap-2.5">
               {supportLinks.map((link) => (
-                <FooterLink
-                  key={link.label}
-                  {...link}
-                >
+                <FooterLink key={link.label} {...link}>
                   {link.label}
                 </FooterLink>
               ))}
-            </div>
+            </nav>
           </div>
 
-          {/* ==================================================
-              CONTACT
-          ================================================== */}
+          {/* CONTACT */}
 
           <div>
-
-            <h3
-              className="
-                text-[12px]
-                font-bold
-                uppercase
-                tracking-[0.12em]
-                text-white
-              "
-            >
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.13em] text-[#102D5B]">
               Get In Touch
             </h3>
 
-            <div className="mt-5 flex flex-col gap-4">
-
+            <div className="mt-4 flex flex-col gap-3">
               <a
-                href="mailto:hello@fabriclink.com"
-                className="
-                  flex
-                  items-center
-                  gap-3
-                  text-[12px]
-                  text-white/60
-                  transition-colors
-                  hover:text-white
-                "
+                href="mailto:amarnathgithub@gmail.com"
+                className="group flex items-center gap-3 text-[12px] text-slate-500 hover:text-[#4F46E5]"
               >
-                <span
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-lg
-                    bg-white/10
-                  "
-                >
-                  <Mail
-                    size={14}
-                    className="text-[#C4B5FD]"
-                  />
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#EEF2FF]">
+                  <Mail size={14} className="text-[#6366F1]" />
                 </span>
 
-                hello@fabriclink.com
+                help@fabriclink.com
               </a>
 
               <a
-                href="tel:+919876543210"
-                className="
-                  flex
-                  items-center
-                  gap-3
-                  text-[12px]
-                  text-white/60
-                  transition-colors
-                  hover:text-white
-                "
+                href="tel:+919142511468"
+                className="group flex items-center gap-3 text-[12px] text-slate-500 hover:text-[#4F46E5]"
               >
-                <span
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-lg
-                    bg-white/10
-                  "
-                >
-                  <Phone
-                    size={14}
-                    className="text-[#C4B5FD]"
-                  />
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#EEF2FF]">
+                  <Phone size={14} className="text-[#6366F1]" />
                 </span>
 
-                +91 98765 43210
+                +91 9142511468
               </a>
 
-              <div
-                className="
-                  flex
-                  items-start
-                  gap-3
-                  text-[12px]
-                  text-white/60
-                "
-              >
-                <span
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-lg
-                    bg-white/10
-                  "
-                >
-                  <MapPin
-                    size={14}
-                    className="text-[#C4B5FD]"
-                  />
+              <div className="flex items-start gap-3 text-[12px] leading-5 text-slate-500">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#EEF2FF]">
+                  <MapPin size={14} className="text-[#6366F1]" />
                 </span>
 
                 <span>
@@ -758,88 +411,57 @@ const Footer = () => {
                   India
                 </span>
               </div>
-
             </div>
           </div>
         </div>
 
-        {/* ====================================================
+        {/* ==================================================
+            SEO DESCRIPTION
+        ================================================== */}
+
+       <div className="mx-6 border-t border-slate-200/80 py-5 sm:mx-10 lg:mx-12">
+  <p className="mx-auto max-w-4xl text-center text-sm leading-6 text-slate-600 sm:text-[13px] sm:leading-5">
+    FabricLink is a B2B textile marketplace helping businesses source
+    wholesale clothing, bulk garments, fabrics, and accessories from
+    trusted textile manufacturers and suppliers across India.
+  </p>
+</div>
+
+        {/* ==================================================
             BOTTOM BAR
-        ==================================================== */}
+        ================================================== */}
 
-        <div
-          className="
-            relative
-            z-10
-            mx-6
-            border-t
-            border-white/10
-            py-5
-            sm:mx-10
-            lg:mx-14
-            xl:mx-16
-          "
-        >
-
-          <div
-            className="
-              flex
-              flex-col
-              items-center
-              justify-between
-              gap-3
-              sm:flex-row
-            "
-          >
-
-            <p className="text-[11px] text-white/45">
+        <div className="border-t border-slate-200/80 px-6 py-4 sm:px-10 lg:px-12">
+          <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+            <p className="text-[10px] text-slate-900">
               © {currentYear} FabricLink. All rights reserved.
             </p>
 
             <div className="flex items-center gap-5">
-
               <Link
                 to="/privacy"
-                className="
-                  text-[11px]
-                  text-white/45
-                  transition-colors
-                  hover:text-white
-                "
+                className="text-[10px] oklch(20.8% 0.042 265.755) transition-colors hover:text-[#4F46E5]"
               >
                 Privacy
               </Link>
 
               <Link
                 to="/terms"
-                className="
-                  text-[11px]
-                  text-white/45
-                  transition-colors
-                  hover:text-white
-                "
+                className="text-[10px] oklch(20.8% 0.042 265.755) transition-colors hover:text-[#4F46E5]"
               >
                 Terms
               </Link>
 
               <Link
                 to="/cookies"
-                className="
-                  text-[11px]
-                  text-white/45
-                  transition-colors
-                  hover:text-white
-                "
+                className="text-[10px] oklch(20.8% 0.042 265.755) transition-colors hover:text-[#4F46E5]"
               >
                 Cookies
               </Link>
-
             </div>
           </div>
         </div>
-
-      </div>
-    </section>
+    </footer>
   );
 };
 

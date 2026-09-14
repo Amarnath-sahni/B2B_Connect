@@ -76,7 +76,7 @@ const CheckoutPage = () => {
 
     // Later:
     // navigate("/order-success");
-    navigate("/Track-Order");
+    navigate("/shipment");
   };
 
   /* ============================================================
@@ -396,67 +396,143 @@ const CheckoutPage = () => {
                   DELIVERY
               ================================================== */}
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-                <div className="flex items-center gap-3">
+  {/* Header */}
+  <div className="flex items-center gap-3">
 
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50">
-                    <Truck
-                      size={20}
-                      className="text-emerald-600"
-                    />
-                  </div>
+    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50">
+      <Truck size={20} className="text-emerald-600" />
+    </div>
 
-                  <div>
+    <div>
+      <h2 className="text-lg font-black text-[#102D5B]">
+        Delivery Method
+      </h2>
 
-                    <h2 className="text-lg font-black text-[#102D5B]">
-                      Delivery Method
-                    </h2>
+      <p className="text-xs text-slate-500">
+        Choose the delivery speed that works for you.
+      </p>
+    </div>
 
-                    <p className="text-xs text-slate-500">
-                      Reliable delivery for your textile order.
-                    </p>
+  </div>
 
-                  </div>
+  {/* Delivery Options */}
+  <div className="mt-5 space-y-3">
 
-                </div>
+    {/* Standard */}
+    <button
+      type="button"
+      className="w-full rounded-xl border-2 border-indigo-500 bg-indigo-50/50 p-4 text-left transition hover:shadow-sm"
+    >
+      <div className="flex items-center justify-between gap-3">
 
-                <div className="mt-5 rounded-xl border-2 border-indigo-500 bg-indigo-50/50 p-4">
+        <div className="flex items-center gap-3">
 
-                  <div className="flex items-center justify-between">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white">
+            <Truck size={19} className="text-indigo-600" />
+          </div>
 
-                    <div className="flex items-center gap-3">
+          <div>
+            <p className="text-sm font-bold text-[#102D5B]">
+              Standard Delivery
+            </p>
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white">
-                        <Truck
-                          size={19}
-                          className="text-indigo-600"
-                        />
-                      </div>
+            <p className="mt-1 text-xs text-slate-500">
+              Estimated delivery in 3–7 business days
+            </p>
+          </div>
 
-                      <div>
+        </div>
 
-                        <p className="text-sm font-bold text-[#102D5B]">
-                          Standard Delivery
-                        </p>
+        <span className="text-sm font-black text-emerald-600">
+          FREE
+        </span>
 
-                        <p className="mt-1 text-xs text-slate-500">
-                          Estimated delivery in 3–7 business days
-                        </p>
+      </div>
+    </button>
 
-                      </div>
+    {/* Quick */}
+    <button
+      type="button"
+      className="w-full rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:border-indigo-300 hover:bg-indigo-50/30 hover:shadow-sm"
+    >
+      <div className="flex items-center justify-between gap-3">
 
-                    </div>
+        <div className="flex items-center gap-3">
 
-                    <span className="text-sm font-black text-emerald-600">
-                      FREE
-                    </span>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-50">
+            <Truck size={19} className="text-amber-600" />
+          </div>
 
-                  </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-bold text-[#102D5B]">
+                Quick Delivery
+              </p>
 
-                </div>
+              <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">
+                POPULAR
+              </span>
+            </div>
 
-              </div>
+            <p className="mt-1 text-xs text-slate-500">
+              Estimated delivery in 2–4 business days
+            </p>
+          </div>
+
+        </div>
+
+        <span className="whitespace-nowrap text-sm font-black text-slate-700">
+          ₹149
+        </span>
+
+      </div>
+    </button>
+
+    {/* Express */}
+    <button
+      type="button"
+      className="w-full rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:border-indigo-300 hover:bg-indigo-50/30 hover:shadow-sm"
+    >
+      <div className="flex items-center justify-between gap-3">
+
+        <div className="flex items-center gap-3">
+
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-rose-50">
+            <Truck size={19} className="text-rose-600" />
+          </div>
+
+          <div>
+            <p className="text-sm font-bold text-[#102D5B]">
+              Express Delivery
+            </p>
+
+            <p className="mt-1 text-xs text-slate-500">
+              Estimated delivery in 1–2 business days
+            </p>
+          </div>
+
+        </div>
+
+        <span className="whitespace-nowrap text-sm font-black text-slate-700">
+          ₹299
+        </span>
+
+      </div>
+    </button>
+
+  </div>
+
+  {/* Info */}
+  <div className="mt-4 rounded-xl bg-slate-50 px-4 py-3">
+    <p className="text-xs leading-5 text-slate-500">
+      Delivery estimates may vary depending on factory processing time,
+      product availability, and your delivery location.
+    </p>
+  </div>
+
+</div>
 
               {/* ==================================================
                   PAYMENT

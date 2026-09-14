@@ -7,19 +7,25 @@ import {
   ArrowLeft,
   Loader2,
   LocateFixed,
+  Search,
+  Crosshair,
 } from "lucide-react";
 
 import {
   MapContainer,
   TileLayer,
   Marker,
+  useMap,
   useMapEvents,
 } from "react-leaflet";
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Fix Leaflet marker icon
+// --------------------------------------------------
+// Leaflet marker fix
+// --------------------------------------------------
+
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -33,18 +39,23 @@ L.Icon.Default.mergeOptions({
 
 const DEFAULT_POSITION = [30.7046, 76.7179];
 
+// --------------------------------------------------
+// Address Page
+// --------------------------------------------------
+
 const AddressPage = () => {
   const navigate = useNavigate();
 
   const [position, setPosition] = useState(DEFAULT_POSITION);
-
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
-    address: "",
+    houseNumber: "",
+    street: "",
+    locality: "",
     landmark: "",
     city: "",
     state: "",
@@ -58,32 +69,39 @@ const AddressPage = () => {
   useEffect(() => {
     const savedAddress = localStorage.getItem("shippingAddress");
 
-    if (savedAddress) {
-      try {
-        const parsed = JSON.parse(savedAddress);
+    if (!savedAddress) return;
 
-        setFormData({
-          fullName: parsed.fullName || "",
-          phone: parsed.phone || "",
-          address: parsed.address || "",
-          landmark: parsed.landmark || "",
-          city: parsed.city || "",
-          state: parsed.state || "",
-          pincode: parsed.pincode || "",
-        });
+    try {
+      const parsed = JSON.parse(savedAddress);
 
-        if (parsed.latitude && parsed.longitude) {
-          setPosition([parsed.latitude, parsed.longitude]);
-        }
-      } catch (error) {
-        console.error("Invalid saved address:", error);
+      setFormData({
+        fullName: parsed.fullName || "",
+        phone: parsed.phone || "",
+        houseNumber: parsed.houseNumber || "",
+        street: parsed.street || "",
+        locality: parsed.locality || "",
+        landmark: parsed.landmark || "",
+        city: parsed.city || "",
+        state: parsed.state || "",
+        pincode: parsed.pincode || "",
+      });
+
+      if (
+        parsed.latitude !== undefined &&
+        parsed.longitude !== undefined
+      ) {
+        setPosition([
+          Number(parsed.latitude),
+          Number(parsed.longitude),
+        ]);
       }
+    } catch (error) {
+      console.error("Invalid saved address:", error);
     }
   }, []);
 
   // --------------------------------------------------
   // Reverse Geocoding
-  // Coordinates -> Address
   // --------------------------------------------------
 
   const getAddressFromCoordinates = async (lat, lng) => {
@@ -91,7 +109,7 @@ const AddressPage = () => {
       setLoadingAddress(true);
 
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
         {
           headers: {
             Accept: "application/json",
@@ -104,53 +122,66 @@ const AddressPage = () => {
       }
 
       const data = await response.json();
-
       const address = data.address || {};
 
-      const road =
+      const houseNumber =
+        address.house_number || "";
+
+      const street =
         address.road ||
-        address.neighbourhood ||
-        address.suburb ||
+        address.pedestrian ||
+        address.footway ||
         "";
 
-      const houseNumber = address.house_number || "";
+      const locality =
+        address.neighbourhood ||
+        address.suburb ||
+        address.quarter ||
+        address.residential ||
+        "";
 
-      const formattedAddress = [houseNumber, road]
-        .filter(Boolean)
-        .join(", ");
+      const city =
+        address.city ||
+        address.town ||
+        address.village ||
+        address.municipality ||
+        "";
+
+      const state =
+        address.state || "";
+
+      const pincode =
+        address.postcode || "";
 
       setFormData((prev) => ({
         ...prev,
+        houseNumber:
+          houseNumber || prev.houseNumber,
 
-        address:
-          formattedAddress ||
-          data.display_name ||
-          prev.address,
+        street:
+          street || prev.street,
+
+        locality:
+          locality || prev.locality,
 
         city:
-          address.city ||
-          address.town ||
-          address.village ||
-          address.municipality ||
-          "",
+          city || prev.city,
 
-        state: address.state || "",
+        state:
+          state || prev.state,
 
-        pincode: address.postcode || "",
+        pincode:
+          pincode || prev.pincode,
       }));
     } catch (error) {
       console.error("Reverse geocoding failed:", error);
-
-      alert(
-        "Location found, but we could not automatically get the complete address. Please enter it manually."
-      );
     } finally {
       setLoadingAddress(false);
     }
   };
 
   // --------------------------------------------------
-  // Get Current Location
+  // Current Location
   // --------------------------------------------------
 
   const getCurrentLocation = () => {
@@ -168,21 +199,17 @@ const AddressPage = () => {
 
         setPosition([lat, lng]);
 
-        // Automatically convert GPS -> address
         await getAddressFromCoordinates(lat, lng);
 
         setLoadingLocation(false);
       },
-
       (error) => {
         setLoadingLocation(false);
-
-        console.error("Location error:", error);
 
         switch (error.code) {
           case error.PERMISSION_DENIED:
             alert(
-              "Location permission was denied. Please allow location access in your browser."
+              "Location permission was denied. Please allow location access."
             );
             break;
 
@@ -198,7 +225,6 @@ const AddressPage = () => {
             alert("Unable to get your current location.");
         }
       },
-
       {
         enableHighAccuracy: true,
         timeout: 15000,
@@ -208,7 +234,7 @@ const AddressPage = () => {
   };
 
   // --------------------------------------------------
-  // Map click
+  // Map Position Change
   // --------------------------------------------------
 
   const handleMapPositionChange = async (lat, lng) => {
@@ -218,7 +244,7 @@ const AddressPage = () => {
   };
 
   // --------------------------------------------------
-  // Form Change
+  // Input Change
   // --------------------------------------------------
 
   const handleChange = (e) => {
@@ -234,7 +260,7 @@ const AddressPage = () => {
   };
 
   // --------------------------------------------------
-  // Save Address
+  // Save
   // --------------------------------------------------
 
   const handleSaveAddress = (e) => {
@@ -250,8 +276,12 @@ const AddressPage = () => {
       return;
     }
 
-    if (!formData.address.trim()) {
-      alert("Please enter your address.");
+    if (
+      !formData.houseNumber.trim() &&
+      !formData.street.trim() &&
+      !formData.locality.trim()
+    ) {
+      alert("Please enter your complete address.");
       return;
     }
 
@@ -280,67 +310,96 @@ const AddressPage = () => {
       "shippingAddress",
       JSON.stringify(addressData)
     );
-
-    navigate("/checkout");
+    alert("Your Address Save SuccessFully...");
+    navigate(-1);
   };
 
+  const formattedSelectedAddress = [
+    formData.houseNumber,
+    formData.street,
+    formData.locality,
+    formData.city,
+    formData.state,
+    formData.pincode,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50">
-      {/* Header */}
-      <div className="border-b bg-white">
+    <div className="min-h-screen bg-[#F8F9FC]">
+
+      {/* --------------------------------------------------
+          Header
+      -------------------------------------------------- */}
+
+      <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+
           <button
-            onClick={() => navigate("/cart")}
-            className="mb-4 flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-indigo-600"
+            type="button"
+            onClick={() => navigate(-1)}
+            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-indigo-600"
           >
-            <ArrowLeft size={18} />
-            Back to Cart
+            <ArrowLeft size={17} />
+            Back
           </button>
 
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              Delivery Address
-            </h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Delivery Address
+          </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Select your current location or enter your address manually.
-            </p>
-          </div>
+          <p className="mt-1 text-sm text-slate-500">
+            Pin your exact delivery location and confirm your address.
+          </p>
         </div>
-      </div>
+      </header>
 
-      {/* Main */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+      {/* --------------------------------------------------
+          Main
+      -------------------------------------------------- */}
 
-          {/* Map */}
-          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+
+          {/* ==================================================
+              MAP
+          ================================================== */}
+
+          <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
             {/* Map Header */}
-            <div className="flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-center sm:justify-between">
+
+            <div className="flex flex-col gap-4 border-b border-slate-100 p-5 sm:p-6 sm:flex-row sm:items-center sm:justify-between">
 
               <div>
-                <div className="flex items-center gap-2">
-                  <MapPin
-                    size={20}
-                    className="text-indigo-600"
-                  />
+                <div className="flex items-center gap-2.5">
 
-                  <h2 className="font-bold text-slate-900">
-                    Select Location
-                  </h2>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
+                    <MapPin
+                      size={20}
+                      className="text-indigo-600"
+                    />
+                  </div>
+
+                  <div>
+                    <h2 className="font-bold text-slate-900">
+                      Choose Location
+                    </h2>
+
+                    <p className="text-xs text-slate-500">
+                      Pin your exact delivery point
+                    </p>
+                  </div>
+
                 </div>
-
-                <p className="mt-1 text-sm text-slate-500">
-                  Click on the map or use your current location.
-                </p>
               </div>
 
               <button
                 type="button"
                 onClick={getCurrentLocation}
                 disabled={loadingLocation}
-                className="flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white shadow-md shadow-indigo-200/50 transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loadingLocation ? (
                   <>
@@ -357,222 +416,299 @@ const AddressPage = () => {
                   </>
                 )}
               </button>
+
             </div>
 
             {/* Map */}
-            <div className="relative h-[500px]">
+
+            <div className="relative h-[420px] sm:h-[500px]">
+
               <MapContainer
                 center={position}
-                zoom={14}
-                scrollWheelZoom={true}
+                zoom={17}
+                minZoom={12}
+                maxZoom={19}
+                scrollWheelZoom
+                zoomControl={true}
                 className="h-full w-full"
               >
+
                 <TileLayer
-                  attribution='&copy; OpenStreetMap contributors'
+                  attribution="&copy; OpenStreetMap contributors"
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+
+                <MapCenter
+                  position={position}
                 />
 
                 <LocationMarker
                   position={position}
                   onPositionChange={handleMapPositionChange}
                 />
+
               </MapContainer>
 
-              {/* Loading overlay */}
-              {loadingAddress && (
-                <div className="absolute left-1/2 top-5 z-[1000] -translate-x-1/2">
-                  <div className="flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-xl">
-                    <Loader2
-                      size={17}
-                      className="animate-spin text-indigo-600"
-                    />
+              {/* Top instruction */}
 
-                    Finding address...
-                  </div>
+              <div className="pointer-events-none absolute left-1/2 top-4 z-[1000] w-[calc(100%-32px)] max-w-md -translate-x-1/2">
+
+                <div className="flex items-center justify-center gap-2 rounded-2xl border border-white/80 bg-white/95 px-4 py-3 text-center shadow-lg backdrop-blur">
+
+                  <Crosshair
+                    size={16}
+                    className="shrink-0 text-indigo-600"
+                  />
+
+                  <p className="text-xs font-semibold text-slate-700 sm:text-sm">
+                    Move the pin to your exact house or street
+                  </p>
+
                 </div>
-              )}
 
-              {/* Coordinates */}
-              <div className="absolute bottom-4 left-4 z-[1000] rounded-xl bg-white/95 px-4 py-3 text-xs shadow-lg backdrop-blur">
-                <p className="font-semibold text-slate-700">
-                  Selected Location
-                </p>
-
-                <p className="mt-1 text-slate-500">
-                  {position[0].toFixed(6)},{" "}
-                  {position[1].toFixed(6)}
-                </p>
               </div>
-            </div>
-          </div>
 
-          {/* Address Form */}
+              {/* Address Preview */}
+
+              <div className="absolute bottom-4 left-4 right-4 z-[1000] sm:left-5 sm:right-auto sm:w-[410px]">
+
+                <div className="rounded-2xl border border-white/80 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+
+                  <div className="flex gap-3">
+
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-50">
+                      <MapPin
+                        size={19}
+                        className="text-indigo-600"
+                      />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+
+                      <div className="flex items-center justify-between gap-3">
+
+                        <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
+                          Selected Location
+                        </p>
+
+                        {loadingAddress && (
+                          <Loader2
+                            size={15}
+                            className="shrink-0 animate-spin text-indigo-600"
+                          />
+                        )}
+
+                      </div>
+
+                      <p className="mt-1 text-sm font-semibold leading-5 text-slate-800">
+                        {loadingAddress
+                          ? "Finding your address..."
+                          : formattedSelectedAddress ||
+                            "Select a location on the map"}
+                      </p>
+
+                      <p className="mt-1 text-[11px] text-slate-400">
+                        {position[0].toFixed(6)},{" "}
+                        {position[1].toFixed(6)}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* ==================================================
+              ADDRESS FORM
+          ================================================== */}
+
           <form
             onSubmit={handleSaveAddress}
-            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/50"
+            className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
           >
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-slate-900">
-                Address Details
-              </h2>
 
-              <p className="mt-1 text-sm text-slate-500">
-                Your location details will be filled automatically.
-              </p>
+            <div className="mb-6">
+
+              <div className="flex items-center gap-3">
+
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
+                  <Navigation
+                    size={19}
+                    className="text-indigo-600"
+                  />
+                </div>
+
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900">
+                    Address Details
+                  </h2>
+
+                  <p className="text-xs text-slate-500">
+                    Confirm your delivery information
+                  </p>
+                </div>
+
+              </div>
+
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-4">
 
               {/* Name */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Full Name
-                </label>
 
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  placeholder="Enter your full name"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                  required
-                />
-              </div>
+              <Input
+                label="Full Name"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Enter full name"
+                required
+              />
 
               {/* Phone */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Phone Number
-                </label>
 
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Enter phone number"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                  required
-                />
-              </div>
+              <Input
+                label="Phone Number"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Enter phone number"
+                required
+              />
 
-              {/* Address */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Address
-                </label>
+              {/* House */}
 
-                <textarea
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  rows={3}
-                  placeholder="House no, street, area"
-                  className="w-full resize-none rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                  required
-                />
-              </div>
+              <Input
+                label="House / Flat / Building"
+                name="houseNumber"
+                value={formData.houseNumber}
+                onChange={handleChange}
+                placeholder="e.g. House No. 24, Flat 302"
+              />
+
+              {/* Street */}
+
+              <Input
+                label="Street / Gali / Road"
+                name="street"
+                value={formData.street}
+                onChange={handleChange}
+                placeholder="e.g. Gali No. 3, Main Road"
+              />
+
+              {/* Locality */}
+
+              <Input
+                label="Locality / Area"
+                name="locality"
+                value={formData.locality}
+                onChange={handleChange}
+                placeholder="e.g. Sector 62, Indirapuram"
+              />
 
               {/* Landmark */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Landmark
-                  <span className="ml-1 font-normal text-slate-400">
-                    (Optional)
-                  </span>
-                </label>
 
-                <input
-                  type="text"
-                  name="landmark"
-                  value={formData.landmark}
-                  onChange={handleChange}
-                  placeholder="Nearby landmark"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                />
-              </div>
+              <Input
+                label={
+                  <>
+                    Landmark
+                    <span className="ml-1 font-normal text-slate-400">
+                      (Optional)
+                    </span>
+                  </>
+                }
+                name="landmark"
+                value={formData.landmark}
+                onChange={handleChange}
+                placeholder="Nearby landmark"
+              />
 
               {/* City / State */}
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">
-                    City
-                  </label>
+                <Input
+                  label="City"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="City"
+                  required
+                />
 
-                  <input
-                    type="text"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    placeholder="City"
-                    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">
-                    State
-                  </label>
-
-                  <input
-                    type="text"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    placeholder="State"
-                    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                    required
-                  />
-                </div>
+                <Input
+                  label="State"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  placeholder="State"
+                  required
+                />
 
               </div>
 
               {/* PIN */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  PIN Code
-                </label>
 
-                <input
-                  type="text"
-                  name="pincode"
-                  value={formData.pincode}
-                  onChange={handleChange}
-                  placeholder="6-digit PIN code"
-                  inputMode="numeric"
-                  maxLength={6}
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                  required
-                />
-              </div>
+              <Input
+                label="PIN Code"
+                name="pincode"
+                value={formData.pincode}
+                onChange={handleChange}
+                placeholder="6-digit PIN code"
+                inputMode="numeric"
+                maxLength={6}
+                required
+              />
 
             </div>
 
             {/* Save */}
+
             <button
               type="submit"
-              className="mt-7 flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-4 font-bold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-4 text-sm font-bold text-white shadow-lg shadow-indigo-200/50 transition hover:-translate-y-0.5 hover:bg-indigo-700"
             >
-              <Save size={19} />
+              <Save size={18} />
               Save Address & Continue
             </button>
 
-            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-500">
-              <Navigation size={14} />
-              Your selected map location will also be saved.
-            </div>
+            <p className="mt-3 text-center text-xs text-slate-400">
+              Your pin location will be saved with your delivery address.
+            </p>
+
           </form>
+
         </div>
-      </div>
+      </main>
     </div>
   );
 };
 
 // --------------------------------------------------
-// Map Marker Component
+// Recenter Map
+// --------------------------------------------------
+
+const MapCenter = ({ position }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    map.flyTo(position, 17, {
+      duration: 0.8,
+    });
+  }, [position, map]);
+
+  return null;
+};
+
+// --------------------------------------------------
+// Marker
 // --------------------------------------------------
 
 const LocationMarker = ({
@@ -580,14 +716,63 @@ const LocationMarker = ({
   onPositionChange,
 }) => {
   useMapEvents({
-    async click(e) {
+    click(e) {
       const { lat, lng } = e.latlng;
 
-      await onPositionChange(lat, lng);
+      onPositionChange(lat, lng);
     },
   });
 
-  return <Marker position={position} />;
+  return (
+    <Marker
+      position={position}
+      draggable
+      eventHandlers={{
+        dragend: (event) => {
+          const marker = event.target;
+          const { lat, lng } = marker.getLatLng();
+
+          onPositionChange(lat, lng);
+        },
+      }}
+    />
+  );
+};
+
+// --------------------------------------------------
+// Reusable Input
+// --------------------------------------------------
+
+const Input = ({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  placeholder,
+  required = false,
+  inputMode,
+  maxLength,
+}) => {
+  return (
+    <div>
+      <label className="mb-1.5 block text-sm font-semibold text-slate-700">
+        {label}
+      </label>
+
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        required={required}
+        inputMode={inputMode}
+        maxLength={maxLength}
+        className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+      />
+    </div>
+  );
 };
 
 export default AddressPage;

@@ -20,9 +20,8 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Categories", path: "/categories" },
     { name: "Factories", path: "/factories" },
-    { name: "Pricing", path: "/pricing" },
     { name: "How It Works", path: "/how-it-works" },
-    { name: "About Us", path: "/about" },
+    { name: "About Us", path: "/about-us" },
   ];
 
   const closeMobileMenu = () => {

@@ -21,14 +21,6 @@ const Dashboard = () => {
             My Dashboard
           </p>
         </div>
-
-        <h1 className="text-xl font-extrabold leading-tight tracking-tight text-[#17386F] sm:text-2xl">
-          Welcome back 👋
-        </h1>
-
-        <p className="mt-1 text-xs text-[#64748B] sm:text-sm">
-          Manage your orders, shipments and account.
-        </p>
       </div>
 
       {/* Right */}

@@ -11,7 +11,7 @@ const Home = () => {
 
       {/* Future Home Sections */}
       <ShopByCategories/>
-      <Trustfeatures/>
+      {/* <Trustfeatures/> */}
       <HowItWorks/>
       {/* 
         <CategoriesSec />

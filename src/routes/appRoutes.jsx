@@ -25,6 +25,7 @@ import FactoryDetail from "../factories/FactoryDetail";
 import HowItWorks from "../pages/homework/Howitworks";
 import About from "../factories/About";
 import TrackOrder from "../pages/user/dashboard/TrackOrder";
+import SupportPage from "../pages/user/Support";
 
 const AppRoutes = () => {
   return (
@@ -56,10 +57,14 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/about"
+        path="/about-us"
         element={<About/>}
       />
 
+      <Route path='/support'
+      element={<SupportPage/>} >
+        
+      </Route>
 
       {/* =========================
           PRODUCTS
@@ -91,12 +96,6 @@ const AppRoutes = () => {
         path="/checkout"
         element={<CheckoutPage />}
       />
-
-      <Route
-        path="/address"
-        element={<AddressPage />}
-      />
-
 
       {/* =========================
           Factories
@@ -135,7 +134,7 @@ const AppRoutes = () => {
       {/* User Addresses */}
       <Route
         path="/dashboard/addresses"
-        element={<h1>Saved Addresses</h1>}
+        element={<AddressPage/>}
       />
 
 
