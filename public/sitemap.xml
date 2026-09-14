@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://my-project-six-plum-62.vercel.app/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Business & Categories -->
+  <url>
+    <loc>https://my-project-six-plum-62.vercel.app/categories</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Products -->
+  <url>
+    <loc>https://my-project-six-plum-62.vercel.app/products/accessories</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Factories -->
+  <url>
+    <loc>https://my-project-six-plum-62.vercel.app/factories</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- How It Works -->
+  <url>
+    <loc>https://my-project-six-plum-62.vercel.app/how-it-works</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- About -->
+  <url>
+    <loc>https://my-project-six-plum-62.vercel.app/about-us</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Support -->
+  <url>
+    <loc>https://my-project-six-plum-62.vercel.app/support</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>
