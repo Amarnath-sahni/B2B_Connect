@@ -62,6 +62,7 @@ const accessories = [
   },
 ];
 
+
 export default function Accessories() {
   const navigate = useNavigate();
 

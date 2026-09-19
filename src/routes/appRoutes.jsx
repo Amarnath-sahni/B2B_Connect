@@ -19,32 +19,36 @@ import Signup from "../pages/user/Signup";
 import Dashboard from "../pages/user/dashboard/Dashboard";
 import PendingOrders from "../pages/user/dashboard/PendingOrders";
 import ActiveShipment from "../pages/user/dashboard/ActiveShipment";
+import TrackOrder from "../pages/user/dashboard/TrackOrder";
+
+// Categories / Factories
 import ShopByCategories from "../pages/category/ShopByCategories";
 import Factories from "../factories/Factories";
 import FactoryDetail from "../factories/FactoryDetail";
+
+// Other Pages
 import HowItWorks from "../pages/homework/Howitworks";
 import About from "../factories/About";
-import TrackOrder from "../pages/user/dashboard/TrackOrder";
 import SupportPage from "../pages/user/Support";
+
+// Protected Route
+import ProtectedRoute from "./ProtectedRoute";
+
 
 const AppRoutes = () => {
   return (
     <Routes>
 
       {/* =========================
-          HOME
+          PUBLIC ROUTES
       ========================== */}
+
       <Route path="/" element={<Home />} />
 
-
-      {/* =========================
-          MAIN PAGES
-      ========================== */}
       <Route
         path="/categories"
-        element={<ShopByCategories/>}
+        element={<ShopByCategories />}
       />
-
 
       <Route
         path="/pricing"
@@ -53,59 +57,46 @@ const AppRoutes = () => {
 
       <Route
         path="/how-it-works"
-        element={<HowItWorks/>}
+        element={<HowItWorks />}
       />
 
       <Route
         path="/about-us"
-        element={<About/>}
+        element={<About />}
       />
 
-      <Route path='/support'
-      element={<SupportPage/>} >
-        
-      </Route>
+      <Route
+        path="/support"
+        element={<SupportPage />}
+      />
 
       {/* =========================
           PRODUCTS
       ========================== */}
 
-      {/* Category */}
       <Route
         path="/products/accessories"
         element={<Accessories />}
       />
 
-      {/* Dynamic Product */}
       <Route
         path="/products/:category/:productId"
         element={<ProductDetailPage />}
       />
 
-
       {/* =========================
-          CART & CHECKOUT
+          FACTORIES
       ========================== */}
 
       <Route
-        path="/cart"
-        element={<CartPage />}
+        path="/factories"
+        element={<Factories />}
       />
 
       <Route
-        path="/checkout"
-        element={<CheckoutPage />}
+        path="/factories/:factoryId"
+        element={<FactoryDetail />}
       />
-
-      {/* =========================
-          Factories
-      ========================== */}
-<Route path="/factories" element={<Factories/>} />
-
-<Route
-  path="/factories/:factoryId"
-  element={<FactoryDetail />}
-/>
 
       {/* =========================
           AUTHENTICATION
@@ -122,75 +113,86 @@ const AppRoutes = () => {
       />
 
 
-      {/* =========================
-          USER DASHBOARD
-      ========================== */}
+      {/* =================================================
+          PROTECTED ROUTES
+          User must be logged in
+      ================================================= */}
 
-      <Route
-        path="/dashboard"
-        element={<Dashboard />}
-      />
+      <Route element={<ProtectedRoute />}>
 
-      {/* User Addresses */}
-      <Route
-        path="/dashboard/addresses"
-        element={<AddressPage/>}
-      />
+        {/* =========================
+            CART & CHECKOUT
+        ========================== */}
 
+        <Route
+          path="/cart"
+          element={<CartPage />}
+        />
 
-      {/* =========================
-          ORDERS
-      ========================== */}
+        <Route
+          path="/checkout"
+          element={<CheckoutPage />}
+        />
 
-      <Route
-        path="/dashboard/orders/pending"
-        element={<PendingOrders/>}
-      />
+        {/* =========================
+            USER DASHBOARD
+        ========================== */}
 
-      <Route
-        path="/dashboard/orders/active"
-        element={<ActiveShipment/>}
-      />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
 
-      <Route
-        path="/dashboard/orders/delivered"
-        element={<h1>Delivered Orders</h1>}
-      />
+        {/* Addresses */}
+        <Route
+          path="/dashboard/addresses"
+          element={<AddressPage />}
+        />
 
-      <Route
-        path="/dashboard/orders/cancelled"
-        element={<h1>Cancelled Orders</h1>}
-      />
+        {/* =========================
+            ORDERS
+        ========================== */}
 
-      <Route
-        path="/dashboard/orders/history"
-        element={<h1>Order History</h1>}
-      />
+        <Route
+          path="/dashboard/orders/pending"
+          element={<PendingOrders />}
+        />
 
+        <Route
+          path="/dashboard/orders/active"
+          element={<ActiveShipment />}
+        />
 
-      {/* =========================
-          SHIPMENTS
-      ========================== */}
+        <Route
+          path="/dashboard/orders/delivered"
+          element={<h1>Delivered Orders</h1>}
+        />
 
-      <Route
-        path="/shipment"
-        element={<TrackOrder/>}
-      />
+        <Route
+          path="/dashboard/orders/cancelled"
+          element={<h1>Cancelled Orders</h1>}
+        />
 
-      <Route
-        path="/dashboard/shipments"
-        element={<TrackOrder/>}
-      />
+        <Route
+          path="/dashboard/orders/history"
+          element={<h1>Order History</h1>}
+        />
 
+        {/* =========================
+            SHIPMENTS
+        ========================== */}
 
-      {/* =========================
-          SUPPORT
-      ========================== */}
+        <Route
+          path="/shipment"
+          element={<TrackOrder />}
+        />
 
-      <Route
-        path="/support"
-        element={<h1>Support Center</h1>}
-      />
+        <Route
+          path="/dashboard/shipments"
+          element={<TrackOrder />}
+        />
+
+      </Route>
 
 
       {/* =========================
@@ -202,6 +204,7 @@ const AppRoutes = () => {
         element={
           <div className="flex min-h-[60vh] items-center justify-center">
             <div className="text-center">
+
               <h1 className="text-4xl font-extrabold text-[#17386F]">
                 404
               </h1>
@@ -209,6 +212,7 @@ const AppRoutes = () => {
               <p className="mt-2 text-sm text-[#64748B]">
                 Page Not Found
               </p>
+
             </div>
           </div>
         }

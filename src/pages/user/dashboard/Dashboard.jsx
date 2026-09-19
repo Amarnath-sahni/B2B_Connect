@@ -2,8 +2,10 @@ import OrderOverview from "./OrderOverview";
 import RecentOrders from "./RecentOrders";
 import ActiveShipment from "./ActiveShipment";
 import QuickActions from "./QuickActions";
+import { useAuth } from "../../../Context/AuthContext";
 
 const Dashboard = () => {
+   const { logout } = useAuth();
   return (
     <div className="min-h-screen bg-[#F8F9FE]">
 
@@ -32,6 +34,7 @@ const Dashboard = () => {
           <p className="text-xs font-semibold text-[#17386F]">
             Personal Dashboard
           </p>
+          <button onClick={logout} className="btn btn-blue">Logout</button>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import image from "../../assets/image.png";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { login } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -13,6 +13,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  console.log(formData);
 
   const [errors, setErrors] = useState({});
 
@@ -55,18 +57,13 @@ const Login = () => {
   };
 
   // Submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) return;
-
-    // Temporary frontend authentication
-    setUser({
-      email: formData.email,
-    });
-
-    navigate("/dashboard");
-  };
+const handleSubmit = (e) => { 
+  e.preventDefault(); 
+  if (!validateForm()) return; 
+  const userData = { email: formData.email, }; 
+  login(userData); 
+  navigate("/dashboard", { replace: true });
+ };
 
   return (
     <div className="min-h-screen flex items-start justify-center bg-gray-50 px-4 py-6">

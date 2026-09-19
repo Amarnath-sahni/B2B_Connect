@@ -57,7 +57,7 @@ const CheckoutPage = () => {
 
     if (!savedAddress) {
       alert("Please add a delivery address first.");
-      navigate("/address");
+      navigate("/dashboard/addresses");
       return;
     }
 
@@ -265,7 +265,7 @@ const CheckoutPage = () => {
 
                     <button
                       type="button"
-                      onClick={() => navigate("/address")}
+                      onClick={() => navigate("/dashboard/addresses")}
                       className="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-xs font-bold text-white shadow-md shadow-indigo-100 transition hover:bg-indigo-700"
                     >
                       <Plus size={16} />

@@ -18,6 +18,7 @@ const categories = [
     name: "Accessories",
   },
   {
+    
     component: TshirtCategory,
     name: "T-Shirts",
   },
@@ -37,6 +38,10 @@ const categories = [
     component: BottomWearCategory,
     name: "Bottom Wear",
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> b84fce1 (Made Route protection component)
 ];
 
 export default function ShopByCategories() {

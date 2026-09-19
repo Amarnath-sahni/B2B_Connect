@@ -1,11 +1,3 @@
 User-agent: *
 Allow: /
-
-Disallow: /login
-Disallow: /signup
-Disallow: /cart
-Disallow: /checkout
-Disallow: /dashboard
-Disallow: /shipment
-
 Sitemap: https://my-project-six-plum-62.vercel.app/sitemap.xml
