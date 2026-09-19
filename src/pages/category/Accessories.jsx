@@ -20,6 +20,46 @@ const accessories = [
     rating: 4.7,
     reviews: 94,
   },
+
+  {
+    id: "premium-wool-scarf",
+    name: "Premium Wool Scarf",
+    price: 649,
+    image:
+      "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&w=800&q=80",
+    rating: 4.6,
+    reviews: 78,
+  },
+
+  {
+    id: "cotton-sports-cap",
+    name: "Cotton Sports Cap",
+    price: 349,
+    image:
+      "https://images.unsplash.com/photo-1514327605112-b887c0e61c0a?auto=format&fit=crop&w=800&q=80",
+    rating: 4.5,
+    reviews: 112,
+  },
+
+  {
+    id: "premium-canvas-wallet",
+    name: "Premium Canvas Wallet",
+    price: 399,
+    image:
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80",
+    rating: 4.4,
+    reviews: 67,
+  },
+
+  {
+    id: "fashion-sunglasses",
+    name: "Premium Fashion Sunglasses",
+    price: 599,
+    image:
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
+    rating: 4.7,
+    reviews: 143,
+  },
 ];
 
 export default function Accessories() {
