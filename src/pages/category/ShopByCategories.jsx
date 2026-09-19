@@ -13,6 +13,10 @@ import BottomWearCategory from "./BottomWearCategory";
 import AccessoriesCategory from "./AccessoriesCategory";
 
 const categories = [
+    {
+    component: AccessoriesCategory,
+    name: "Accessories",
+  },
   {
     component: TshirtCategory,
     name: "T-Shirts",
@@ -32,10 +36,6 @@ const categories = [
   {
     component: BottomWearCategory,
     name: "Bottom Wear",
-  },
-  {
-    component: AccessoriesCategory,
-    name: "Accessories",
   },
 ];
 
