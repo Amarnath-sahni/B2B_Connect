@@ -60,7 +60,6 @@ const productData = {
       location: "Ludhiana, Punjab",
     },
   },
-<<<<<<< HEAD
 
   "classic-leather-belt": {
     id: "classic-leather-belt",
@@ -92,105 +91,6 @@ const productData = {
       rating: 4.7,
       moq: 30,
       location: "Kanpur, Uttar Pradesh",
-    },
-  },
-
-  "premium-wool-scarf": {
-    id: "premium-wool-scarf",
-    name: "Premium Wool Scarf",
-    category: "Accessories",
-    price: 649,
-    oldPrice: 899,
-    rating: 4.6,
-    reviews: 78,
-    stock: 120,
-    sizes: ["Free Size"],
-    images: [
-      "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=900",
-      "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=900",
-    ],
-    description:
-      "Soft and warm wool scarf designed for winter collections. Comfortable fabric with a stylish finish suitable for both casual and premium fashion products.",
-    specifications: {
-      Material: "80% Wool, 20% Acrylic",
-      GSM: "250",
-      Color: "Grey",
-      Pattern: "Checked",
-      Origin: "India",
-      "Product Type": "Winter Scarf",
-    },
-    seller: {
-      name: "Punjab Woolen Mills",
-      verified: true,
-      rating: 4.6,
-      moq: 40,
-      location: "Amritsar, Punjab",
-    },
-  },
-
-  "cotton-sports-cap": {
-    id: "cotton-sports-cap",
-    name: "Cotton Sports Cap",
-    category: "Accessories",
-    price: 349,
-    oldPrice: 499,
-    rating: 4.5,
-    reviews: 112,
-    stock: 300,
-    sizes: ["Free Size"],
-    images: [
-      "https://images.unsplash.com/photo-1514327605112-b887c0e61c0a?w=900",
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=900",
-    ],
-    description:
-      "Lightweight cotton sports cap with breathable construction. Suitable for sportswear brands, promotional products and everyday outdoor activities.",
-    specifications: {
-      Material: "100% Cotton",
-      GSM: "160",
-      Color: "Black",
-      Pattern: "Solid",
-      Origin: "India",
-      "Product Type": "Sports Cap",
-    },
-    seller: {
-      name: "Sportswear India",
-      verified: true,
-      rating: 4.5,
-      moq: 100,
-      location: "Noida, Uttar Pradesh",
-    },
-  },
-
-  "premium-canvas-wallet": {
-    id: "premium-canvas-wallet",
-    name: "Premium Canvas Wallet",
-    category: "Accessories",
-    price: 399,
-    oldPrice: 599,
-    rating: 4.4,
-    reviews: 67,
-    stock: 200,
-    sizes: ["Free Size"],
-    images: [
-      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=900",
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900",
-    ],
-    description:
-      "Compact canvas wallet designed for everyday use. Features a lightweight construction with multiple compartments for cards and cash.",
-    specifications: {
-      Material: "Premium Canvas",
-      Color: "Olive Green",
-      Pattern: "Plain",
-      Compartments: "6",
-      Origin: "India",
-      "Product Type": "Canvas Wallet",
-    },
-    seller: {
-      name: "Urban Accessories",
-      verified: true,
-      rating: 4.4,
-      moq: 50,
-      location: "Delhi, India",
     },
   },
 
@@ -226,43 +126,6 @@ const productData = {
       location: "Jaipur, Rajasthan",
     },
   },
-};
-=======
->>>>>>> b84fce1 (Made Route protection component)
-
-  "classic-leather-belt": {
-    id: "classic-leather-belt",
-    name: "Classic Leather Belt",
-    category: "Accessories",
-    price: 799,
-    oldPrice: 999,
-    rating: 4.7,
-    reviews: 94,
-    stock: 180,
-    sizes: ["S", "M", "L", "XL"],
-    images: [
-      "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=900",
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900",
-    ],
-    description:
-      "Premium classic leather belt with a durable metal buckle. Designed for everyday formal and casual wear with a clean and timeless finish.",
-    specifications: {
-      Material: "Genuine Leather",
-      Color: "Brown",
-      Pattern: "Solid",
-      Buckle: "Metal",
-      Origin: "India",
-      "Product Type": "Leather Belt",
-    },
-    seller: {
-      name: "Royal Leather Works",
-      verified: true,
-      rating: 4.7,
-      moq: 30,
-      location: "Kanpur, Uttar Pradesh",
-    },
-  },
-
   "premium-wool-scarf": {
     id: "premium-wool-scarf",
     name: "Premium Wool Scarf",
@@ -293,39 +156,6 @@ const productData = {
       rating: 4.6,
       moq: 40,
       location: "Amritsar, Punjab",
-    },
-  },
-
-  "cotton-sports-cap": {
-    id: "cotton-sports-cap",
-    name: "Cotton Sports Cap",
-    category: "Accessories",
-    price: 349,
-    oldPrice: 499,
-    rating: 4.5,
-    reviews: 112,
-    stock: 300,
-    sizes: ["Free Size"],
-    images: [
-      "https://images.unsplash.com/photo-1514327605112-b887c0e61c0a?w=900",
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=900",
-    ],
-    description:
-      "Lightweight cotton sports cap with breathable construction. Suitable for sportswear brands, promotional products and everyday outdoor activities.",
-    specifications: {
-      Material: "100% Cotton",
-      GSM: "160",
-      Color: "Black",
-      Pattern: "Solid",
-      Origin: "India",
-      "Product Type": "Sports Cap",
-    },
-    seller: {
-      name: "Sportswear India",
-      verified: true,
-      rating: 4.5,
-      moq: 100,
-      location: "Noida, Uttar Pradesh",
     },
   },
 

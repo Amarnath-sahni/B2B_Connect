@@ -38,10 +38,6 @@ const categories = [
     component: BottomWearCategory,
     name: "Bottom Wear",
   },
-<<<<<<< HEAD
-=======
-
->>>>>>> b84fce1 (Made Route protection component)
 ];
 
 export default function ShopByCategories() {
